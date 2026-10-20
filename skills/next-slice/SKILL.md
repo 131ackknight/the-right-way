@@ -4,7 +4,7 @@ description: Build exactly one slice of a build pack made by the-right-way, in a
 license: MIT
 metadata:
   companion-skill: the-right-way
-  version: "1.4.0"
+  version: "1.5.0"
 ---
 
 # Next Slice
@@ -67,7 +67,10 @@ Confirm the **Consumes** items exist with the stated shape using one combined se
 
 - Run each check once: the **Verify** commands, plus typecheck and lint if the project has them and **Verify** does not already cover them. Do not run the test suite a second time if **Verify** already runs it.
 - Keep the output small: use quiet or summary reporters (for example `vitest run --reporter=dot`, `pytest -q`, `npm run build --silent`). Only print full output for what failed, and re-run just the failing test while fixing it.
-- Check an acceptance box only when it is actually true. Never mark a slice `done` with failing checks. If it cannot pass within budget, split.
+- Check an acceptance box only when it is actually true. Never mark a slice `done` with failing checks it caused. If it cannot pass within budget, split.
+- **Pre-existing failures:** if a check fails in code this slice did not touch, confirm it is unrelated (it fails without your changes, or clearly concerns other code). Do not fix it. Log it in **Discovered work** and the Handoff, and the slice can still be `done`. If it blocks your own **Verify** commands, set the slice to `blocked` instead.
+- **Missing tooling:** if a **Verify** command cannot run because setup is missing (for example no lint config), add the minimal setup and record it as a deviation.
+- **No manual browser passes** unless **Verify** explicitly asks for one. Driving a browser costs many round trips and large screenshots. Prefer the brief's automated checks; for a quick smoke test of a page, fetch it with `curl` and check the status and key text.
 
 ## Step 6: Hand off
 
