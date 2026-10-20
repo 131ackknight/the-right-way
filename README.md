@@ -133,7 +133,7 @@ Each finished slice prints the next prompt. When two slices can run in parallel,
 4. **Budget every chat.** A slice must fit in about half a context window, which leaves room to debug.
 5. **Split, don't sprawl.** Running over budget produces new slices, not a longer chat.
 6. **Verify before done.** Every slice ships with commands that prove it works.
-7. **Every line is read many times.** Skill descriptions stay short because they load into every chat. Templates carry no boilerplate. Briefs cite spec IDs instead of copying text. Builders read spec sections rather than whole files, and keep test output quiet.
+7. **Every line is read many times.** Skill descriptions stay short because they load into every chat. Templates carry no boilerplate. Briefs cite spec IDs instead of copying text. Builders batch their reads, run each check once with quiet output, and do their bookkeeping in a few combined edits.
 
 ## Repository layout
 

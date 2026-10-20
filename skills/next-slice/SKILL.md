@@ -4,14 +4,17 @@ description: Build exactly one slice of a build pack made by the-right-way, in a
 license: MIT
 metadata:
   companion-skill: the-right-way
-  version: "1.3.0"
+  version: "1.4.0"
 ---
 
 # Next Slice
 
 You are the building half of a two-skill workflow. A previous chat used `the-right-way` to write a build pack to disk. Your job: **build one slice, prove it works, leave clean notes, and stop.** The next slice happens in a new chat.
 
-You have no memory of earlier chats and must not need any. Context is the budget you are protecting: every file you read and every command output stays in this chat.
+You have no memory of earlier chats and must not need any. Protect two budgets:
+
+- **Context:** every file you read and every command output stays in this chat.
+- **Round trips:** every tool call costs a full model turn. Batch independent reads and searches into one parallel step, and do bookkeeping in a few combined edits rather than many small ones.
 
 ## Step 1: Pick the slice
 
@@ -33,13 +36,13 @@ Claim it right away by setting it to `doing (YYYY-MM-DD)`, so other chats skip i
 
 ## Step 2: Load only what the brief lists
 
-- Read the slice brief.
-- For **Read first**, read only what it names. For `SPEC.md` sections and decision IDs, search for the heading or ID and read just that range, not the whole spec.
+- Read the slice brief, then read everything its **Read first** names in one parallel batch.
+- Read files under about 300 lines whole: one read beats a search plus a ranged read. For larger files, including a large `SPEC.md`, read only the named sections.
 - Do not read other briefs, upstream Handoffs, or the wider codebase by default. Upstream contract changes have already been copied into this brief's **Consumes**.
 
 ## Step 3: Pre-flight the contracts
 
-Confirm each **Consumes** item exists with the stated shape by searching for it (the export, route, table, or type). Do not open whole files to check.
+Confirm the **Consumes** items exist with the stated shape using one combined search (a single pattern matching all the names), not one search per item. Skip any you already saw while reading **Read first**.
 
 - Matches: continue.
 - Differs: now read the relevant upstream Handoff. If it explains the change, code against reality and note it. If nothing explains it, set the slice to `blocked: <reason>`, tell the user, and stop.
@@ -48,9 +51,10 @@ Confirm each **Consumes** item exists with the stated shape by searching for it 
 
 - Work through **Tasks** in order, following the conventions in `SPEC.md` and the existing code.
 - Create every **Produces** item exactly as written. Changing a contract is allowed, but it must go in the Handoff and be propagated (Step 6).
-- Respect **Out of scope**. For anything outside the slice, add one line to **Discovered work** in `PROGRESS.md` and move on.
-- For decisions the spec does not cover, make the smallest reasonable call and append it to the `SPEC.md` decisions log as `D-NNN (slice NN)`. Ask only if it is expensive to reverse.
-- Keep reads cheap: read large files in ranges, and do not re-read files you just wrote.
+- Respect **Out of scope**. Note anything outside the slice and add it to **Discovered work** during Step 6, not mid-build.
+- For decisions the spec does not cover, make the smallest reasonable call and note it for Step 6. Ask only if it is expensive to reverse.
+- While building, run only the tests for what you are working on. Save full checks for Step 5.
+- Do not re-read files you just wrote.
 
 **Split, don't sprawl.** If you are reading far beyond **Read first**, the work is clearly bigger than the brief (for example double the files), or debugging is dragging on:
 
@@ -61,20 +65,23 @@ Confirm each **Consumes** item exists with the stated shape by searching for it 
 
 ## Step 5: Verify
 
-- Run every **Verify** command, plus the project's existing test, lint, and typecheck commands.
+- Run each check once: the **Verify** commands, plus typecheck and lint if the project has them and **Verify** does not already cover them. Do not run the test suite a second time if **Verify** already runs it.
 - Keep the output small: use quiet or summary reporters (for example `vitest run --reporter=dot`, `pytest -q`, `npm run build --silent`). Only print full output for what failed, and re-run just the failing test while fixing it.
 - Check an acceptance box only when it is actually true. Never mark a slice `done` with failing checks. If it cannot pass within budget, split.
 
 ## Step 6: Hand off
 
-1. Fill in the brief's **Handoff**, briefly:
+Do this in as few edits as possible: one to the brief, one to `PROGRESS.md`, and one to `SPEC.md` only if there are new decisions.
+
+1. In the brief, tick the acceptance boxes and fill in **Handoff** in the same edit, briefly:
    - **Status:** `done` or `partial`.
    - **What changed:** the files, as one list.
    - **Deviations from this brief:** what differs and why.
    - **New or changed contracts:** exact signatures, paths, or shapes that differ from **Produces**.
    - **Notes for downstream slices:** gotchas only.
 2. If a contract changed, edit the **Consumes** lines of each downstream brief that uses it. Find those briefs via the **Depends on** column. Touch only those lines.
-3. In `PROGRESS.md`: set the slice to `done (YYYY-MM-DD)`, point **Next up** at the next ready slice, and add one line to **Log**.
+3. In `PROGRESS.md`, in one edit: set the slice to `done (YYYY-MM-DD)`, point **Next up** at the next ready slice, add any **Discovered work**, and add one line to **Log**.
+4. Append any new decisions to the `SPEC.md` decisions log as `D-NNN (slice NN)`.
 
 ## Step 7: Commit and stop
 

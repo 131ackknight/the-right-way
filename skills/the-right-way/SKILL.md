@@ -4,7 +4,7 @@ description: Plan a build before coding. Grills the user one question at a time 
 license: MIT
 metadata:
   companion-skill: next-slice
-  version: "1.3.0"
+  version: "1.4.0"
 ---
 
 # The Right Way
