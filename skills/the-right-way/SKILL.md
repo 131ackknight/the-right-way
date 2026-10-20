@@ -4,7 +4,7 @@ description: Plan a build before coding. Grills the user one question at a time 
 license: MIT
 metadata:
   companion-skill: next-slice
-  version: "1.5.0"
+  version: "1.6.0"
 ---
 
 # The Right Way
@@ -82,7 +82,7 @@ A slice is a unit of work a **fresh agent with zero chat history** can complete,
 1. **Vertical over horizontal.** Thin end-to-end slices beat layers. Slice 01 is usually the foundation: scaffold, tooling, core data model, a passing smoke test.
 2. **One testable outcome per slice.**
 3. **Budget**: about half a context window, leaving room to debug. Roughly 8 or fewer files touched, 5 or fewer existing files to read, a one-page brief, one or two verify commands. Over budget means split.
-4. **Runnable, automated checks.** Every **Verify** command must run without a human: tests, typecheck, lint, build, or a `curl` smoke test. Slice 01 sets up every tool later slices verify with (test runner, lint config, typecheck), so no slice discovers missing tooling mid-build. Only ask for a manual browser check when a slice's outcome is purely visual, and say exactly what to look at.
+4. **Runnable, automated checks.** Every **Verify** command runs without a human: tests, typecheck, lint, build, or a `curl` smoke test. Use the check commands the project already has (found in Phase 0). If the plan needs a check the project lacks, slice 01 sets it up and the user agrees to it; never list an unconfigured check. Only ask for a manual browser check when an outcome is purely visual, and say exactly what to look at. An end-to-end browser walkthrough spanning several features goes once in the **Verify** of the last slice that completes them, not in each slice.
 5. **Contracts, not memories.** Slices connect only through exact contracts in their briefs: paths, signatures, types, routes, tables, flags, events. Never "as discussed".
 6. **Explicit dependencies.** List them; mark slices with no dependency between them as parallel-safe.
 7. **3 to 12 slices** is typical. More than 12: group under milestones. Fewer than 3: say the build may not need this skill.
