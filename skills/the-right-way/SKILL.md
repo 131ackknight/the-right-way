@@ -21,7 +21,7 @@ Do not write implementation code in this chat. Scaffolding, prototypes, and "qui
    - If one exists and grilling was unfinished (`SPEC.md` has a non-empty **Open questions** list), say so and resume the grill from those questions.
    - If one exists and is complete, tell the user to use `next-slice` instead, unless they want to re-plan. Re-planning edits the existing pack; it never silently overwrites finished slices.
 2. Explore the codebase before asking anything. Read the README, package manifests, directory layout, existing conventions, tests, and CI config. Every fact you can learn from the code is a question you must not ask.
-3. Create `build-plan/SPEC.md` from [the spec template](templates/SPEC.md) immediately, with the goal as you currently understand it. You will fill it in as you grill.
+3. Create `build-plan/SPEC.md` from [the spec template](templates/SPEC.md) with the goal as you currently understand it and your open questions. Do this once, in the same turn as your first question, so the user is not kept waiting. You will fill it in at checkpoints during the grill.
 
 ## Phase 1: Grill
 
@@ -59,15 +59,32 @@ Walk the decision tree. Go broad first, then deep where one decision unlocks oth
 7. **Verification**: how each piece is proven to work (tests, commands, manual checks).
 8. **Delivery**: environments, deploy, migrations, rollout, and feature flags if relevant.
 
-### Write as you go
+### Keep grill turns fast and lean
 
-After every answer, update `SPEC.md`:
+The user is waiting between every question, and everything you do between questions stays in this chat's context. Every file edit or re-read copies text into the conversation, so per-answer spec updates make the planning chat slow and bloated, which is exactly the problem this skill exists to prevent. So:
 
-- Add each decision to the **Decisions log** as `D-NNN` with the choice, the reason, and whether it was `decided` or `delegated`.
-- Move resolved items out of **Open questions**; add new ones you discover.
-- Keep the **Summary** and **Requirements** sections current.
+- Do your codebase exploration in Phase 0, up front. Mid-grill, only look something up when an answer specifically requires it.
+- A normal turn is: acknowledge the answer in a few words, then ask the next question. No file edits, no re-reading `SPEC.md`, no long restatements.
+- Keep questions short. The why and the trade-off get one line each.
 
-This makes the planning chat itself resumable. If this conversation grows long (roughly 25+ exchanges, or you notice earlier details slipping), stop, make sure `SPEC.md` is current, and tell the user to continue in a fresh chat with: `Use the-right-way to resume planning from build-plan/SPEC.md.`
+### Checkpoint in batches
+
+Track decisions in the conversation as you go, and write them to `SPEC.md` at checkpoints, in a single edit each:
+
+- Every 5 answers.
+- When you finish a top-level branch of the decision tree (for example, finishing Data).
+- When the user says they need to stop.
+- Always before Phase 2.
+
+At a checkpoint:
+
+- Append new decisions to the **Decisions log** as `D-NNN` with the choice, the reason, and whether it was `decided` or `delegated`.
+- Update **Open questions**: remove resolved items, add new ones.
+- Refresh **Summary** and **Requirements** only at branch ends and before Phase 2, not at every checkpoint.
+
+Do not re-read `SPEC.md` during the grill; you wrote it. The cost of batching is that at most a few answers are lost if the chat dies, which is a good trade for a fast interview.
+
+This makes the planning chat itself resumable. If this conversation grows long (roughly 25+ exchanges, or you notice earlier details slipping), stop, run a checkpoint, and tell the user to continue in a fresh chat with: `Use the-right-way to resume planning from build-plan/SPEC.md.`
 
 ### When to stop grilling
 

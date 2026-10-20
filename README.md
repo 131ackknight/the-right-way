@@ -35,7 +35,7 @@ flowchart LR
 ### 1. `the-right-way`: grill, slice, write the build pack
 
 - **Grills one question at a time**, always with a recommended answer, so you can reply "yes" and move on. It reads your codebase first, so it never asks what the code already answers.
-- **Logs every decision** as it goes (`D-001`, `D-002`, ...), with the reason and whether you decided it or said "your call". The planning chat can itself be resumed in a new chat if it runs long.
+- **Logs every decision** (`D-001`, `D-002`, ...), with the reason and whether you decided it or said "your call". It writes them to disk in batched checkpoints rather than after every answer, so the gap between questions stays short and the planning chat doesn't fill up with file edits. The planning chat can itself be resumed in a new chat if it runs long.
 - **Slices the work** into vertical, independently verifiable units with a context budget: roughly 8 files touched or fewer, about 5 files to read, one testable outcome.
 - **Connects slices through contracts, not memories.** Each brief spells out the exact signatures, routes, and types it **consumes** and **produces**. A brief can never say "as discussed".
 - **Writes a build pack** to `build-plan/` and prints the prompt to start the first build chat.
