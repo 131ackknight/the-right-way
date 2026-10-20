@@ -1,7 +1,5 @@
 # Slice 01: Foundation: scaffold, store, dates
 
-> A self-contained brief for one fresh chat. Everything needed is here or in the files listed under **Read first**. If something is missing, that is a planning bug: note it in the Handoff, do not guess silently.
-
 - **Depends on:** none
 - **Parallel-safe with:** none
 - **Implements:** R-06 (fully), groundwork for all others

@@ -1,14 +1,10 @@
 # Progress: Streaks, a local-first habit tracker
 
-> Source of truth across chats. Every `next-slice` chat reads this first and updates it last. If this file disagrees with anything else, this file wins until someone fixes it.
-
 ## Next up
 
 **03: Daily check-ins and streaks** (`slices/03-check-ins-and-streaks.md`)
 
 Slice 04 is parallel-safe with 03 and can be started in a separate chat now.
-
-Kickoff prompt for a fresh chat:
 
 ```
 Use the next-slice skill to build the next slice in build-plan/.
@@ -23,14 +19,6 @@ Use the next-slice skill to build the next slice in build-plan/.
 | 03 | Daily check-ins and streaks | todo | 02 | 04 | [03](slices/03-check-ins-and-streaks.md) |
 | 04 | History heatmap | todo | 02 | 03 | [04](slices/04-history-heatmap.md) |
 | 05 | Export and import | todo | 03 | none | [05](slices/05-export-import.md) |
-
-Status is one of:
-
-- `todo`: not started.
-- `doing (YYYY-MM-DD)`: claimed by a chat. If a new chat finds this, the previous chat was interrupted; resume it.
-- `done (YYYY-MM-DD)`: acceptance criteria verified and handoff written.
-- `blocked: <reason>`: cannot proceed without a human decision.
-- `split into <NN>a, <NN>b`: replaced by smaller slices listed below it.
 
 ## Discovered work
 

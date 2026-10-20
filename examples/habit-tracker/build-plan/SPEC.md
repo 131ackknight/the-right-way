@@ -1,7 +1,5 @@
 # Spec: Streaks, a local-first habit tracker
 
-> Single source of truth for *what* is being built and *why*. Written during the grill by `the-right-way`; read in part by every `next-slice` chat. Keep it compact: builders load only the sections their brief cites.
-
 ## Summary
 
 Streaks is a single-user web app for tracking daily habits. You add a few habits, tap once a day to check each one off, and see your current streak, best streak, and a 12-week history. There are no accounts: data lives in the browser and can be exported or imported as JSON. Done means a person can use it daily for a month without losing data or needing help.

@@ -1,7 +1,5 @@
 # Slice 04: History heatmap
 
-> A self-contained brief for one fresh chat. Everything needed is here or in the files listed under **Read first**. If something is missing, that is a planning bug: note it in the Handoff, do not guess silently.
-
 - **Depends on:** 02
 - **Parallel-safe with:** 03 (this slice only reads `store.checkIns`; it adds no actions)
 - **Implements:** R-04

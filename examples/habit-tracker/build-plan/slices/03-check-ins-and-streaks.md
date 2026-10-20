@@ -1,7 +1,5 @@
 # Slice 03: Daily check-ins and streaks
 
-> A self-contained brief for one fresh chat. Everything needed is here or in the files listed under **Read first**. If something is missing, that is a planning bug: note it in the Handoff, do not guess silently.
-
 - **Depends on:** 02
 - **Parallel-safe with:** 04
 - **Implements:** R-02, R-03

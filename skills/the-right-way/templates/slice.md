@@ -1,61 +1,46 @@
 # Slice <NN>: <title>
 
-> A self-contained brief for one fresh chat. Everything needed is here or in the files listed under **Read first**. If something is missing, that is a planning bug: note it in the Handoff, do not guess silently.
-
-- **Depends on:** <slice IDs, or "none">
-- **Parallel-safe with:** <slice IDs, or "none">
-- **Implements:** <requirement IDs from SPEC.md, e.g. R-02, R-03>
+- **Depends on:** <IDs or none>
+- **Parallel-safe with:** <IDs or none>
+- **Implements:** <R-IDs>
 
 ## Goal
 
-<One sentence describing the single testable outcome of this slice.>
+<One testable outcome.>
 
 ## Read first
 
-Load these and nothing else unless you get stuck:
-
-- `build-plan/SPEC.md`: sections <Summary, Data model>; decisions <D-003, D-007>
-- `<path/to/existing/file>`: <why it matters>
+- `build-plan/SPEC.md`: <sections>; <D-IDs>
+- `<path>`: <why>
 
 ## Consumes
 
-Contracts this slice relies on, provided by earlier slices or the existing codebase. Verify each exists before starting.
-
-- `<path>`: `<exported signature or type>`
-- `<route or table or event>`: <shape>
+- `<path>`: `<exact signature or shape>`
 
 ## Produces
 
-Contracts this slice must create exactly as written. Later slices code against these.
-
-- `<path>`: `<exported signature or type>`
-- `<route or table or event>`: <shape>
+- `<path>`: `<exact signature or shape>`
 
 ## Tasks
 
-1. <Concrete, ordered step.>
-2. <Concrete, ordered step.>
-3. <Concrete, ordered step.>
+1. <step>
 
 ## Acceptance criteria
 
-- [ ] <Checkable statement tied to a requirement.>
-- [ ] <Checkable statement.>
-- [ ] All verify commands pass.
+- [ ] <checkable statement, citing R-IDs>
+- [ ] Verify commands pass.
 
 ## Verify
 
 ```bash
-<command that proves the slice works>
+<command>
 ```
 
 ## Out of scope
 
-- <Tempting adjacent work that belongs to slice NN.>
+- <adjacent work> (slice <NN>)
 
 ## Handoff
-
-_Filled in by the builder at the end of the chat. Leave empty when planning._
 
 - **Status:**
 - **What changed:**

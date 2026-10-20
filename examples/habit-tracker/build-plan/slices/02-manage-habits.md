@@ -1,7 +1,5 @@
 # Slice 02: Manage habits
 
-> A self-contained brief for one fresh chat. Everything needed is here or in the files listed under **Read first**. If something is missing, that is a planning bug: note it in the Handoff, do not guess silently.
-
 - **Depends on:** 01
 - **Parallel-safe with:** none
 - **Implements:** R-01
