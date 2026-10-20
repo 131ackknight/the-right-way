@@ -35,6 +35,17 @@ Interview the user until you could hand the plan to a stranger and they would bu
 - **Push back.** If an answer is vague, contradictory, or risky, say so and ask again. Ask "what would make this fail?" at least once for anything load-bearing.
 - **"Your call" is an answer.** Take your recommendation and log it as delegated.
 
+### Use clickable prompts when available
+
+If your environment has a structured question tool (for example `AskUserQuestion` in Claude Code or `AskQuestion` in Cursor), ask every grill question through it instead of plain text:
+
+- One question per call, even if the tool accepts several.
+- 2 to 4 options. Put your recommendation first and end its label with "(Recommended)". Use each option's description for the one-line why or trade-off.
+- Keep a free-text escape: rely on the tool's built-in "Other" choice, or add an option like "Something else (I'll explain)".
+- Put any context the user needs to choose (what you found in the code, what the choice affects) in the question text, not in a separate message.
+
+Without such a tool, fall back to plain text with lettered options (**A** recommended, **B**, **C**) so the user can reply with a single letter.
+
 ### What to cover
 
 Walk the decision tree. Go broad first, then deep where one decision unlocks others. Skip branches the codebase already answers.
