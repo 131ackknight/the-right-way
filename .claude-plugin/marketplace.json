@@ -1,0 +1,14 @@
+{
+  "name": "the-right-way",
+  "description": "Plan builds the right way: grill first, then build one context-sized slice per fresh chat.",
+  "owner": {
+    "name": "Peter Knudson"
+  },
+  "plugins": [
+    {
+      "name": "the-right-way",
+      "source": "./",
+      "description": "Two skills: the-right-way (grill and slice into a build pack) and next-slice (build one slice per fresh chat with clean handoffs)."
+    }
+  ]
+}

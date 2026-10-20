@@ -1,0 +1,10 @@
+{
+  "name": "the-right-way",
+  "version": "1.0.0",
+  "description": "Grill the plan until it is airtight, then slice it into context-sized units that each get built in a fresh chat. No compaction, no lost decisions.",
+  "author": {
+    "name": "Peter Knudson"
+  },
+  "license": "MIT",
+  "keywords": ["planning", "skills", "context-window", "grill-me", "agents", "workflow"]
+}
