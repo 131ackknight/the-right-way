@@ -2,7 +2,7 @@
 
 **Grill the plan until it's airtight. Then build it one fresh chat at a time.**
 
-[![Validate](https://github.com/peter-knudson/the-right-way/actions/workflows/validate.yml/badge.svg)](https://github.com/peter-knudson/the-right-way/actions/workflows/validate.yml)
+[![Validate](https://github.com/131ackknight/the-right-way/actions/workflows/validate.yml/badge.svg)](https://github.com/131ackknight/the-right-way/actions/workflows/validate.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Works with Claude Code, Cursor, Codex](https://img.shields.io/badge/works%20with-Claude%20Code%20%7C%20Cursor%20%7C%20Codex-8A2BE2)
 
@@ -80,14 +80,14 @@ The [example README](examples/habit-tracker/README.md) includes an excerpt of th
 ### Claude Code (plugin)
 
 ```
-/plugin marketplace add peter-knudson/the-right-way
+/plugin marketplace add 131ackknight/the-right-way
 /plugin install the-right-way@the-right-way
 ```
 
 ### Any tool (script)
 
 ```bash
-git clone https://github.com/peter-knudson/the-right-way.git
+git clone https://github.com/131ackknight/the-right-way.git
 cd the-right-way
 ./scripts/install.sh            # auto-detects Claude Code, Cursor, and Codex
 ./scripts/install.sh --all      # or install for all three
