@@ -10,7 +10,7 @@ Each habit row can expand to show an accessible 12-week, Monday-first heatmap of
 
 ## Read first
 
-- `build-plan/SPEC.md`: section R-04; decisions D-003, D-009
+- `build-plan/streaks/SPEC.md`: section R-04; decisions D-003, D-009
 - `src/lib/dates.ts`: date helpers
 - `src/components/HabitRow.tsx`: the `row-details` slot
 

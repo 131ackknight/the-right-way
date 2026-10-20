@@ -10,7 +10,7 @@ A user can download their data as JSON and restore it from a file, with validati
 
 ## Read first
 
-- `build-plan/SPEC.md`: sections R-05, Data model; decision D-008
+- `build-plan/streaks/SPEC.md`: sections R-05, Data model; decision D-008
 - `src/lib/useStore.ts`: how actions are added
 - `src/lib/types.ts`: `Store`
 - `src/App.tsx`: header where the menu mounts

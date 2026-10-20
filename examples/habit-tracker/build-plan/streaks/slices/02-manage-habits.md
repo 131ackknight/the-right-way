@@ -10,7 +10,7 @@ A user can add, rename, and archive habits, and the list survives a reload.
 
 ## Read first
 
-- `build-plan/SPEC.md`: sections R-01, Interfaces; decisions D-006, D-007
+- `build-plan/streaks/SPEC.md`: sections R-01, Interfaces; decisions D-006, D-007
 - `src/lib/types.ts`, `src/lib/store.ts`: the store contract
 - `src/App.tsx`: where the list mounts
 

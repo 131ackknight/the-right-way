@@ -1,10 +1,10 @@
 ---
 name: next-slice
-description: Build exactly one slice of a build pack made by the-right-way, in a fresh chat. Loads only that slice's brief, builds and verifies it, writes a handoff, and updates PROGRESS.md for the next chat. Use for "next slice", "continue the build", or a build-plan/ folder.
+description: Build exactly one slice of a build pack made by the-right-way, in a fresh chat. Loads only that slice's brief, builds and verifies it, writes a handoff, and updates PROGRESS.md for the next chat. Use for "next slice", "build slice NN", or a build-plan/ folder.
 license: MIT
 metadata:
   companion-skill: the-right-way
-  version: "1.2.0"
+  version: "1.3.0"
 ---
 
 # Next Slice
@@ -15,16 +15,21 @@ You have no memory of earlier chats and must not need any. Context is the budget
 
 ## Step 1: Pick the slice
 
-Open `build-plan/PROGRESS.md` (or search for a `PROGRESS.md` with a **Slices** table; if there is none, tell the user to plan with `the-right-way` first). You only need **Next up** and the **Slices** table.
+Find the pack. Kickoff prompts name it, for example `build slice 03 of build-plan/focus-timer/`.
+
+- If the prompt names a pack path, use it.
+- If not, list `build-plan/`. One pack: use it. Several: show each pack with its **Next up** and ask which one; never guess. None: tell the user to plan with `the-right-way` first.
+- Older packs may sit directly in `build-plan/` (with `build-plan/PROGRESS.md`); treat that folder as the pack.
+
+Open the pack's `PROGRESS.md`. You only need **Next up** and the **Slices** table.
 
 Status values: `todo`, `doing (date)`, `done (date)`, `blocked: reason`, `split into NNa, NNb`.
 
-1. If the user named a slice, use it once its dependencies are `done`.
-2. Else, if a slice is `doing`, a previous chat was interrupted: resume it (see the end of this file).
-3. Else, take the lowest-numbered `todo` slice whose dependencies are all `done`.
-4. If nothing is ready, say why and stop.
+1. If the prompt names a slice, build that one, once its dependencies are `done`. If it is already `doing`, ask whether another chat is still on it before touching it; if the user says it was interrupted, resume it (see the end of this file).
+2. If no slice is named, take the lowest-numbered `todo` slice whose dependencies are all `done`. Never take over a `doing` slice unprompted: it may be another chat working right now. Mention any `doing` slices in your report so the user can say if one was interrupted.
+3. If nothing is ready, say why and stop.
 
-Claim it right away by setting it to `doing (YYYY-MM-DD)`, so parallel chats pick something else.
+Claim it right away by setting it to `doing (YYYY-MM-DD)`, so other chats skip it.
 
 ## Step 2: Load only what the brief lists
 
@@ -75,12 +80,12 @@ Confirm each **Consumes** item exists with the stated shape by searching for it 
 
 - If the project uses git, commit the code and build-pack updates together as `slice NN: title`, unless the repo has its own conventions.
 - Report in a few lines: what was built, how it was verified, and any deviations or discovered work. Name any parallel-safe slices that can start now. If every slice is `done`, summarize and suggest a final review against `SPEC.md`.
-- End with the kickoff prompt in its own code block, then stop:
+- End with kickoff prompts naming the exact slice and pack, one code block per slice that is ready now (one per parallel chat), then stop:
 
 ```
-Use the next-slice skill to build the next slice in build-plan/.
+Use the next-slice skill to build slice 04 of build-plan/<slug>/.
 ```
 
 ## Resuming an interrupted slice
 
-Run `git status` and `git diff --stat` (not the full diff) and read any partial Handoff. Then continue from the first incomplete task without redoing finished work.
+Only when the user confirms the slice was interrupted: run `git status` and `git diff --stat` (not the full diff) and read any partial Handoff. Then continue from the first incomplete task without redoing finished work.

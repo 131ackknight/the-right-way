@@ -10,7 +10,7 @@ A running Vite + React + TypeScript app with a typed, persisted store and date h
 
 ## Read first
 
-- `build-plan/SPEC.md`: sections Data model, Stack and constraints; decisions D-001, D-002, D-003
+- `build-plan/streaks/SPEC.md`: sections Data model, Stack and constraints; decisions D-001, D-002, D-003
 
 ## Consumes
 

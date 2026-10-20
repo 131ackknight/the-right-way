@@ -10,7 +10,7 @@
 
 ## Read first
 
-- `build-plan/SPEC.md`: <sections>; <D-IDs>
+- `build-plan/<slug>/SPEC.md`: <sections>; <D-IDs>
 - `<path>`: <why>
 
 ## Consumes

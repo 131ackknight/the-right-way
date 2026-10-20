@@ -5,7 +5,7 @@
 **<NN>: <title>** (`slices/<NN>-<slug>.md`)
 
 ```
-Use the next-slice skill to build the next slice in build-plan/.
+Use the next-slice skill to build slice <NN> of build-plan/<slug>/.
 ```
 
 ## Slices

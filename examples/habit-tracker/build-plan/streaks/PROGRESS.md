@@ -4,10 +4,14 @@
 
 **03: Daily check-ins and streaks** (`slices/03-check-ins-and-streaks.md`)
 
-Slice 04 is parallel-safe with 03 and can be started in a separate chat now.
+Slice 04 is parallel-safe with 03. Run each in its own chat:
 
 ```
-Use the next-slice skill to build the next slice in build-plan/.
+Use the next-slice skill to build slice 03 of build-plan/streaks/.
+```
+
+```
+Use the next-slice skill to build slice 04 of build-plan/streaks/.
 ```
 
 ## Slices

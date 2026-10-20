@@ -25,7 +25,7 @@ flowchart LR
   planChat["Chat 1: the-right-way"] --> grill[Grill one question at a time]
   grill --> spec["SPEC.md + decisions log"]
   spec --> slice[Slice into context-sized units]
-  slice --> pack["build-plan/ on disk"]
+  slice --> pack["build-plan/slug/ on disk"]
   pack --> chatN["Chat N: next-slice"]
   chatN --> build[Build and verify one slice]
   build --> handoff["Handoff notes + PROGRESS.md"]
@@ -38,28 +38,30 @@ flowchart LR
 - **Logs every decision** (`D-001`, `D-002`, ...), with the reason and whether you decided it or said "your call". It writes them to disk in batched checkpoints rather than after every answer, so the gap between questions stays short and the planning chat doesn't fill up with file edits. The planning chat can itself be resumed in a new chat if it runs long.
 - **Slices the work** into vertical, independently verifiable units with a context budget: roughly 8 files touched or fewer, about 5 files to read, one testable outcome.
 - **Connects slices through contracts, not memories.** Each brief spells out the exact signatures, routes, and types it **consumes** and **produces**. A brief can never say "as discussed".
-- **Writes a build pack** to `build-plan/` and prints the prompt to start the first build chat.
+- **Writes a build pack** to `build-plan/<slug>/`, one folder per planned effort, so several features can be planned and built side by side. It prints a kickoff prompt naming the exact slice and folder.
 
 ### 2. `next-slice`: build one slice per fresh chat
 
-- Reads `PROGRESS.md`, claims the next ready slice, and loads **only** that brief plus the files it lists.
+- Builds the slice the kickoff prompt names, or the next ready one. It claims the slice in `PROGRESS.md` and never takes over a slice another chat is working on. It loads **only** that brief plus the files it lists.
 - Checks the consumed contracts exist on disk before writing a line of code.
 - Builds, then runs the slice's verify commands. It never marks a slice done with failing checks.
 - Writes a **handoff**: what changed, deviations, and changed contracts. It then updates the briefs of any downstream slices so the next chat codes against reality.
 - **Splits instead of sprawling.** If a slice grows past its budget, it stops at a clean point and writes the remaining work as new slices.
-- Prints the kickoff prompt for the next chat, and notes which slices are safe to run in parallel chats.
+- Prints a kickoff prompt for each slice that is ready now, so parallel chats each get their own.
 
 ## The build pack
 
 ```
 build-plan/
-  SPEC.md          # requirements with acceptance criteria, data model, decisions log
-  PROGRESS.md      # slice table: status, dependencies, parallel-safe pairs. The source of truth.
-  slices/
-    01-foundation.md
-    02-manage-habits.md
-    03-check-ins-and-streaks.md
-    ...
+  streaks/             # one folder per planned effort
+    SPEC.md            # requirements with acceptance criteria, data model, decisions log
+    PROGRESS.md        # slice table: status, dependencies, parallel-safe pairs. The source of truth.
+    slices/
+      01-foundation.md
+      02-manage-habits.md
+      03-check-ins-and-streaks.md
+      ...
+  another-feature/     # a second effort, planned and built independently
 ```
 
 Every slice brief has the same sections: **Goal**, **Read first**, **Consumes**, **Produces**, **Tasks**, **Acceptance criteria**, **Verify**, **Out of scope**, and **Handoff**. See the [templates](skills/the-right-way/templates/).
@@ -68,10 +70,10 @@ Every slice brief has the same sections: **Goal**, **Read first**, **Consumes**,
 
 [`examples/habit-tracker`](examples/habit-tracker/) is a complete build pack for a small app, frozen mid-build:
 
-- [SPEC.md](examples/habit-tracker/build-plan/SPEC.md): six requirements and ten logged decisions.
-- [PROGRESS.md](examples/habit-tracker/build-plan/PROGRESS.md): two slices done, slice 03 next, and slice 04 safe to run in parallel.
-- [Slice 02](examples/habit-tracker/build-plan/slices/02-manage-habits.md): the builder changed a contract, explained why in the handoff, and updated the downstream briefs.
-- [Slice 03](examples/habit-tracker/build-plan/slices/03-check-ins-and-streaks.md): what the next fresh chat will read. It already reflects slice 02's change.
+- [SPEC.md](examples/habit-tracker/build-plan/streaks/SPEC.md): six requirements and ten logged decisions.
+- [PROGRESS.md](examples/habit-tracker/build-plan/streaks/PROGRESS.md): two slices done, slice 03 next, and slice 04 safe to run in parallel.
+- [Slice 02](examples/habit-tracker/build-plan/streaks/slices/02-manage-habits.md): the builder changed a contract, explained why in the handoff, and updated the downstream briefs.
+- [Slice 03](examples/habit-tracker/build-plan/streaks/slices/03-check-ins-and-streaks.md): what the next fresh chat will read. It already reflects slice 02's change.
 
 The [example README](examples/habit-tracker/README.md) includes an excerpt of the grilling.
 
@@ -113,15 +115,15 @@ Copy `skills/the-right-way/` and `skills/next-slice/` into your tool's skills fo
 Use the-right-way to plan a local-first habit tracker with streaks.
 ```
 
-Answer the questions. When the plan is confirmed, the agent writes `build-plan/` and gives you a kickoff prompt.
+Answer the questions. When the plan is confirmed, the agent writes `build-plan/<slug>/` and gives you a kickoff prompt.
 
-**Build** (in a new chat for each slice):
+**Build** (in a new chat for each slice). Paste the prompt the agent printed; it names the exact slice and folder:
 
 ```
-Use the next-slice skill to build the next slice in build-plan/.
+Use the next-slice skill to build slice 01 of build-plan/habit-tracker/.
 ```
 
-Repeat until `PROGRESS.md` shows every slice done. Slices marked parallel-safe can run in separate chats at the same time.
+Each finished slice prints the next prompt. When two slices can run in parallel, you get one prompt per slice: paste each into its own chat. With several efforts in one repo, the folder in the prompt keeps them apart. If you leave out the slice number, the agent picks the next ready slice; if you leave out the folder and there are several, it asks which one.
 
 ## Design principles
 

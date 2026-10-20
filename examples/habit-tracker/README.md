@@ -4,10 +4,10 @@ This is a real build pack produced by `the-right-way`, frozen **mid-build**: sli
 
 | File | What to look at |
 | --- | --- |
-| [build-plan/SPEC.md](build-plan/SPEC.md) | Requirements with checkable acceptance criteria, and a decisions log where each choice records why it was made and whether the user decided it or delegated it. |
-| [build-plan/PROGRESS.md](build-plan/PROGRESS.md) | The slice table, dependencies, parallel-safe pairs, discovered work, and the log. |
-| [build-plan/slices/02-manage-habits.md](build-plan/slices/02-manage-habits.md) | A finished slice. The builder changed a contract (`useHabits()` became `useStore()`), recorded why in the Handoff, logged decision D-010, and updated the downstream briefs. |
-| [build-plan/slices/03-check-ins-and-streaks.md](build-plan/slices/03-check-ins-and-streaks.md) | The next slice. Its **Consumes** section already reflects slice 02's change, so the next chat never needs slice 02's conversation. |
+| [build-plan/streaks/SPEC.md](build-plan/streaks/SPEC.md) | Requirements with checkable acceptance criteria, and a decisions log where each choice records why it was made and whether the user decided it or delegated it. |
+| [build-plan/streaks/PROGRESS.md](build-plan/streaks/PROGRESS.md) | The slice table, dependencies, parallel-safe pairs, discovered work, and the log. |
+| [build-plan/streaks/slices/02-manage-habits.md](build-plan/streaks/slices/02-manage-habits.md) | A finished slice. The builder changed a contract (`useHabits()` became `useStore()`), recorded why in the Handoff, logged decision D-010, and updated the downstream briefs. |
+| [build-plan/streaks/slices/03-check-ins-and-streaks.md](build-plan/streaks/slices/03-check-ins-and-streaks.md) | The next slice. Its **Consumes** section already reflects slice 02's change, so the next chat never needs slice 02's conversation. |
 
 ## How the grill went (excerpt)
 
@@ -39,5 +39,5 @@ The planning chat asks one question at a time and always leads with a recommenda
 After about 20 questions the open questions list was empty. The agent proposed five slices, the user confirmed, and the agent wrote this pack and printed the kickoff prompt:
 
 ```
-Use the next-slice skill to build the next slice in build-plan/.
+Use the next-slice skill to build slice 01 of build-plan/streaks/.
 ```

@@ -4,7 +4,7 @@ description: Plan a build before coding. Grills the user one question at a time 
 license: MIT
 metadata:
   companion-skill: next-slice
-  version: "1.2.0"
+  version: "1.3.0"
 ---
 
 # The Right Way
@@ -15,13 +15,14 @@ Core rule: **everything a future chat needs lives in files, never in this conver
 
 ## Phase 0: Orient
 
-1. Check for an existing build pack (`build-plan/PROGRESS.md`).
-   - Unfinished grill (`SPEC.md` has blocking **Open questions**): resume from those questions.
-   - Complete pack: point the user to `next-slice` unless they want to re-plan. Re-planning edits the pack; it never overwrites finished slices.
+1. Each planned effort gets its own pack at `build-plan/<slug>/`, where the slug is a short kebab-case name for the effort (for example `build-plan/focus-timer/`). List `build-plan/` to see existing packs.
+   - The user is resuming an effort with an unfinished grill (`SPEC.md` has blocking **Open questions**): continue from those questions.
+   - The effort already has a complete pack: point the user to `next-slice` unless they want to re-plan. Re-planning edits that pack; it never overwrites finished slices.
+   - New effort: pick a slug that doesn't collide with an existing pack. Other packs are unrelated; leave them alone.
 2. Explore the codebase so you never ask what the code already answers. Keep it cheap:
    - If you can launch a subagent, delegate the exploration and ask for a summary of 30 lines or fewer: stack, layout, conventions, test and build commands, and anything relevant to the goal.
    - Otherwise list the tree and skim manifests, README, and CI config. Read only the parts you need; do not read whole source files to "get oriented".
-3. In the same turn as your first question, create `build-plan/SPEC.md` from [the spec template](templates/SPEC.md) with the goal and your open questions.
+3. In the same turn as your first question, create `build-plan/<slug>/SPEC.md` from [the spec template](templates/SPEC.md) with the goal and your open questions.
 
 ## Phase 1: Grill
 
@@ -66,7 +67,7 @@ Write decisions to `SPEC.md` in one edit at each checkpoint: every 5 answers, at
 - Update **Open questions**.
 - Rewrite **Summary** and **Requirements** only at topic ends and before Phase 2.
 
-If the chat grows long (about 25+ exchanges), checkpoint and tell the user to continue in a fresh chat with: `Use the-right-way to resume planning from build-plan/SPEC.md.`
+If the chat grows long (about 25+ exchanges), checkpoint and tell the user to continue in a fresh chat with: `Use the-right-way to resume planning from build-plan/<slug>/SPEC.md.`
 
 ### When to stop
 
@@ -90,11 +91,13 @@ Show the slice list as a compact table (ID, title, outcome, depends on) and get 
 ## Phase 3: Write the build pack
 
 ```
-build-plan/
+build-plan/<slug>/
   SPEC.md            # finalized
   PROGRESS.md        # from templates/PROGRESS.md
   slices/NN-slug.md  # from templates/slice.md, one per slice
 ```
+
+Use the full pack path in every file reference (for example `build-plan/<slug>/SPEC.md` in **Read first**), so a builder never has to guess which pack is meant.
 
 Every future chat reads these files, so every line costs tokens in every build chat:
 
@@ -104,12 +107,16 @@ Every future chat reads these files, so every line costs tokens in every build c
 - **Read first** lists only what the builder truly needs. It is the main lever on future chat size.
 - **Handoff** stays empty for the builder.
 
-Set every slice to `todo` in `PROGRESS.md` with **Next up** pointing at slice 01. If the project has `AGENTS.md` or `CLAUDE.md`, offer to add one line pointing at `build-plan/PROGRESS.md`.
+Set every slice to `todo` in `PROGRESS.md` with **Next up** pointing at slice 01. If the project has `AGENTS.md` or `CLAUDE.md`, offer to add one line pointing at `build-plan/`.
 
 ## Phase 4: Hand off
 
-End with a short summary (goal, slice count, parallel-safe slices), a reminder to run each slice in a **new chat**, and the kickoff prompt in its own code block:
+End with a short summary (goal, slice count, parallel-safe slices) and a reminder to run each slice in a **new chat**.
+
+Kickoff prompts always name the exact slice and pack, so a chat never has to guess what to build, even with several efforts or parallel chats going. Print each in its own code block:
 
 ```
-Use the next-slice skill to build the next slice in build-plan/.
+Use the next-slice skill to build slice 01 of build-plan/<slug>/.
 ```
+
+When several slices can start at once, print one prompt per slice, one for each chat.

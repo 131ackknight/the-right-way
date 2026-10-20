@@ -10,7 +10,7 @@ Each habit row has today and yesterday toggles and shows current and best streak
 
 ## Read first
 
-- `build-plan/SPEC.md`: sections R-02, R-03; decisions D-003, D-004, D-005
+- `build-plan/streaks/SPEC.md`: sections R-02, R-03; decisions D-003, D-004, D-005
 - `src/lib/useStore.ts`: how actions are added
 - `src/lib/dates.ts`: date helpers
 - `src/components/HabitRow.tsx`: where controls mount
